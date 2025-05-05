@@ -1,0 +1,2 @@
+# Filters
+At the moment the resulting files end up crackling a bit. I'm sure there are smart ways of making the waves to couinterract this, but I think the easiest would be a fourier filter to just cut any super high frequencies

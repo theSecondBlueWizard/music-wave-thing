@@ -1,0 +1,2 @@
+# Wave generators
+This was written to be as easily extensible as possible. Should be as easy as writing a child class of `BaseWaveGenerator` in `base.py`, and `generate_samples(self, pitch, duration)`. Further options should be possible to pass down, once the CLI is implemented. Docustrings are also missing.
