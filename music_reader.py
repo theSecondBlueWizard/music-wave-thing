@@ -9,14 +9,14 @@ class NoteFrequency:
 
 def note_string_to_int(note_string, semitone_char, octave):
     match note_string:
+        case 'c': note_int = 4 - 12
+        case 'd': note_int = 6 - 12
+        case 'e': note_int = 8 - 12
+        case 'f': note_int = 9 - 12
+        case 'g': note_int = 11 - 12
         case 'a': note_int = 1
         case 'b': note_int = 3
         case 'h': note_int = 3
-        case 'c': note_int = 4
-        case 'd': note_int = 6
-        case 'e': note_int = 8
-        case 'f': note_int = 9
-        case 'g': note_int = 11
         case default:
             raise ValueError(f"Parsing unexpecting note string {note_string!r}") 
 
@@ -26,7 +26,7 @@ def note_string_to_int(note_string, semitone_char, octave):
         case '#': note_int += 1
         case '': note_int += 0
     
-    return note_int + 12 * octave
+    return note_int + (12 * octave)
 
 def note_int_to_frequency(note_int, a4_frequency):
     a4_int = note_string_to_int('a', '', 4)
@@ -45,7 +45,7 @@ def read_notes(notes, a4_frequency, bpm):
         if not note_char.isalpha():
             raise ValueError(f"Unexpected note string {note_string!r}, note number {note_number!r}") 
         
-        if not ('a' <= note_char <= 'h') and not ('A' <= note <= 'H'):
+        if not ('a' <= note_char <= 'h') and not ('A' <= note_char <= 'H'):
             raise ValueError(f"Unexpected note character {note_string!r}, note number: {note_number!r}") 
         note_char = note_char.lower()
 
