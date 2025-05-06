@@ -1,22 +1,19 @@
-from scipy.io import wavfile
+import numpy as np
 from scipy import signal
+from scipy.io import wavfile
 from matplotlib import pyplot as plt
 import filters
 import parsers
 import wave_generators
 import filters
-import numpy as np
 
 A4_FREQUENCY = 440.0
 BPM = 180.0
-AMPLITUDE = 0.03
+AMPLITUDE = 0.07
 SAMPLE_FREQUENCY = 44_100
 
 visualise_filter = False
 visialise_spectrogram = False
-
-
-
 
 if __name__ == "__main__":
     musical_notes = parsers.read_file_to_list("examples/sunday-clothes.txt")
@@ -48,6 +45,7 @@ if __name__ == "__main__":
     for filter in [
                 filters.HighPassFilter(min_frequency=100, sample_frequency=SAMPLE_FREQUENCY),
                 filters.LowPassFilter(max_frequency=15_000, sample_frequency=SAMPLE_FREQUENCY),
+                filters.VolumeFilter(volume=AMPLITUDE),
                 # filters.DistortionFilter(cutoff=0.9),
             ]:
         sample_arr = filter.excecute(sample_arr)
@@ -57,8 +55,8 @@ if __name__ == "__main__":
         plt.show()
 
     if visialise_spectrogram:
-        # Thought a pixel per quarter beat would be smart-ish
-        fs = SAMPLE_FREQUENCY         # e.g. 44100
+        # mercilessly stolen from chatGPT tbh. Would be nice to implement from ground principles
+        fs = SAMPLE_FREQUENCY
         f, t, Sxx = signal.spectrogram(
             sample_arr,
             fs=fs,
@@ -79,7 +77,5 @@ if __name__ == "__main__":
     wavfile.write("sunday-clothes.wav", SAMPLE_FREQUENCY, AMPLITUDE * sample_arr)
 
     # CLI
-    # Multiple files?
-    # silence
-
+    # Silence
     # Discover wave_generators and filters automatically
