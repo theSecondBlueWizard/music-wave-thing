@@ -22,7 +22,7 @@ if __name__ == "__main__":
     musical_notes = parsers.read_file_to_list("examples/sunday-clothes.txt")
     physical_notes = parsers.read_notes_to_frequencies(musical_notes, A4_FREQUENCY, BPM)
     
-    wave_generator = wave_generators.Sinusoidal(sample_frequency=SAMPLE_FREQUENCY)
+    wave_generator = wave_generators.Square(sample_frequency=SAMPLE_FREQUENCY)
 
     samples = []
     for note in physical_notes:
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     musical_notes = parsers.read_file_to_list("examples/sunday-clothes-bass.txt")
     physical_notes = parsers.read_notes_to_frequencies(musical_notes, A4_FREQUENCY, BPM)
     
-    wave_generator = wave_generators.Sinusoidal(sample_frequency=SAMPLE_FREQUENCY)
+    wave_generator = wave_generators.Square(sample_frequency=SAMPLE_FREQUENCY)
 
     samples = []
     for note in physical_notes:
@@ -45,11 +45,9 @@ if __name__ == "__main__":
     else:
         sample_arr += np.array(samples[sample_arr.size:])
         
-
-
     for filter in [
-                # filters.HighPassFilter(min_frequency=500, sample_frequency=SAMPLE_FREQUENCY),
-                filters.LowPassFilter(max_frequency=2_500, sample_frequency=SAMPLE_FREQUENCY),
+                filters.HighPassFilter(min_frequency=100, sample_frequency=SAMPLE_FREQUENCY),
+                filters.LowPassFilter(max_frequency=15_000, sample_frequency=SAMPLE_FREQUENCY),
                 # filters.DistortionFilter(cutoff=0.9),
             ]:
         sample_arr = filter.excecute(sample_arr)
