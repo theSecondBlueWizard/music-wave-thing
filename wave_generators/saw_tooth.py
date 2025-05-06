@@ -1,10 +1,10 @@
 from .base import BaseWaveGenerator
 import numpy as np
 
-class Square(BaseWaveGenerator):
+class SawTooth(BaseWaveGenerator):
     def __init__(self, fade_in=200, fade_out=200, **kwargs):
         """
-        Generates proper square wave.
+        Generates SawTooth wave.
         
         Linear fade in/out meant to avoid clicking.
 
@@ -17,7 +17,7 @@ class Square(BaseWaveGenerator):
 
         Returns
         -------
-        SquareWaveGenerator : WaveGenerator
+        SawToothWaveGenerator : WaveGenerator
         """
         self.fade_in = fade_in
         self.fade_out = fade_out
@@ -25,18 +25,13 @@ class Square(BaseWaveGenerator):
 
     def generate_samples(self, pitch, duration):
         def wave_function(t):
-            sinusoidal_sample = np.sin(pitch * 2 * np.pi * t)
-            if sinusoidal_sample > 0:
-                return 1
-            else:
-                return -1
+            return 2 * pitch * t % 1
         t_arr = np.arange(0, duration, 1/self.sample_frequency)
         samples = list(map(wave_function, t_arr))
 
         for i in range(self.fade_in):
             samples[i] *= i / self.fade_in
-
         for i in range(self.fade_out):
             samples[-i] *= i / self.fade_out
-
-        return samples
+            
+        return list(samples)

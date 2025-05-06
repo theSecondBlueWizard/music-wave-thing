@@ -1,0 +1,3 @@
+class BaseFilter():
+    def filter(self, frequency_spectrum):
+        ...
