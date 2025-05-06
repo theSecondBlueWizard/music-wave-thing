@@ -1,5 +1,6 @@
 # music-wave-thing
-I've wanted to have a buzzy version of [the wall-e intro song](https://www.youtube.com/watch?v=DHP9BVo7X1w) (technically from a 60s broadway musical called [Hello, Dolly!](https://en.wikipedia.org/wiki/Hello,_Dolly!_(musical)), which sort of makes sense with how it sound) as my ringtone for a while. The smart move would probably be to transcribe it in garage band or musescore and export to MIDI or just directy to a mp3, however what's the fun in that?
+I've wanted to have a buzzy version of [the wall-e intro song](https://www.youtube.com/watch?v=DHP9BVo7X1w) (technically from a 60s broadway musical called [Hello, Dolly!](https://en.wikipedia.org/wiki/Hello,_Dolly!_(musical)), which sort of makes sense in context) as my ringtone for a while. The smart move would probably be to transcribe it in musescore and export to MIDI or just directy to a mp3, or directly in garage band [seeing as that's the only official way of setting a custom rindtone on an iOS device](https://support.apple.com/en-us/120692), hovever...
+what's the fun in that?
 
 Music is just sounds, which is just waves at different frequencies, so here's a quick tool to convert a textual representation of sheet music into a very rudamentary synth-soudning `.wav` file.
 
