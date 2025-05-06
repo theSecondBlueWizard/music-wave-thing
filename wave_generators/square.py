@@ -7,7 +7,11 @@ class Square(BaseWaveGenerator):
 
     def generate_samples(self, pitch, duration):
         def wave_function(t):
-            return np.sin(pitch * 2 * np.pi * t) ** 100
+            sinusoidal_sample = np.sin(pitch * 2 * np.pi * t)
+            if sinusoidal_sample > 0:
+                return 1
+            else:
+                return -1
         t_arr = np.arange(0, duration, 1/self.sample_frequency)
         samples = list(map(wave_function, t_arr))
-        return list(samples)
+        return samples

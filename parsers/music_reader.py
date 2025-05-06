@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from .file_reader import NoteString
 
 SEMITONE_RATIO = 2 ** (1/12) # Comes from music theory: https://en.wikipedia.org/wiki/Twelfth_root_of_two
 
@@ -7,7 +8,7 @@ class NoteFrequency:
     frequency: float
     duration: float
 
-def note_string_to_int(note_string, semitone_char, octave):
+def note_string_to_int(note_string: str, semitone_char: str, octave: int):
     match note_string:
         case 'c': note_int = 4 - 12
         case 'd': note_int = 6 - 12
@@ -17,7 +18,7 @@ def note_string_to_int(note_string, semitone_char, octave):
         case 'a': note_int = 1
         case 'b': note_int = 3
         case 'h': note_int = 3
-        case default:
+        case _:
             raise ValueError(f"Parsing unexpecting note string {note_string!r}") 
 
 
@@ -25,16 +26,52 @@ def note_string_to_int(note_string, semitone_char, octave):
         case 'b': note_int -= 1
         case '#': note_int += 1
         case '': note_int += 0
+        case _:
+            raise ValueError(f"Parsing unexpecting accent {semitone_char!r}") 
     
     return note_int + (12 * octave)
 
-def note_int_to_frequency(note_int, a4_frequency):
+def note_int_to_frequency(note_int: int, a4_frequency: float):
+    """
+    Parses note from number of relative halftones to a0 to frequency.
+    
+    Assumes chromatic 12-semitone scale.
+    
+    Parameters
+    ----------
+    note_int : int
+        Position of note in terms of half-tones relative to a0
+    a4_frequency : float
+        Frequency of the a4 note in hertz. Typically 440, sometimes 442
+
+    Returns
+    -------
+    frequency : float
+        Frequency of requested note
+    """
     a4_int = note_string_to_int('a', '', 4)
     a4_interval = note_int - a4_int
     frequency = a4_frequency * (SEMITONE_RATIO ** a4_interval)
     return frequency
 
-def read_notes(notes, a4_frequency, bpm):
+def read_notes_to_frequencies(notes: NoteString, a4_frequency: float=440, bpm: float=80) -> list[NoteFrequency]:
+    """
+    Parses list of notes as strings to a list of fequencies
+    
+    Parameters
+    ----------
+    notes : list[NoteString(name: str, duration: float)]
+        List of notes {note}{accent?}{octave}, and their duration
+    a4_frequency : float
+        Frequency of the a4 note in hertz. Typically 440, sometimes 442
+    bpm : float
+        Number of beats per minute.
+
+    Returns
+    -------
+    notes : list[NoteFrequencies(frequency: float, duration: float)]
+        List of frequencies and durations
+    """
     read_notes = []
     for note_number, note in enumerate(notes):
         note_string = note.name
