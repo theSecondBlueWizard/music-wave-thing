@@ -2,7 +2,6 @@ import numpy as np
 from scipy import signal
 from scipy.io import wavfile
 from matplotlib import pyplot as plt
-import filters
 import parsers
 import wave_generators
 import filters
@@ -46,7 +45,7 @@ if __name__ == "__main__":
                 filters.HighPassFilter(min_frequency=100, sample_frequency=SAMPLE_FREQUENCY),
                 filters.LowPassFilter(max_frequency=15_000, sample_frequency=SAMPLE_FREQUENCY),
                 filters.VolumeFilter(volume=AMPLITUDE),
-                # filters.DistortionFilter(cutoff=0.9),
+                filters.DistortionFilter(cutoff=0.9),
             ]:
         sample_arr = filter.excecute(sample_arr)
 
@@ -74,7 +73,7 @@ if __name__ == "__main__":
         plt.colorbar(label='Magnitude [dB]')
         plt.show()
 
-    wavfile.write("sunday-clothes.wav", SAMPLE_FREQUENCY, AMPLITUDE * sample_arr)
+    wavfile.write("sunday-clothes.wav", SAMPLE_FREQUENCY, (AMPLITUDE * sample_arr * 32767).astype(np.int16))
 
     # CLI
     # Silence
